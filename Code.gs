@@ -1,5 +1,5 @@
 function doPost(e) {
-  var contents = JSON.parse(e.postData.contents); // получение содержимого отправленного боту собщения
+  var contents = JSON.parse(e.postData.contents);
   try {
     actions(contents);
   } catch (err) {
@@ -33,7 +33,8 @@ function actionForMessageWithEntity(msg, entityType) {
 }
 
 function commandReaction(msg) {
-  var cmd = contents.message.text.split(' ')[0];
+  addLog(msg.text, msg.from);
+  var cmd = msg.text.split(' ')[0];
   var text = '';
   var params = {};
   params.chat_id = msg.chat.id;

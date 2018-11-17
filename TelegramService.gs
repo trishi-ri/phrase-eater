@@ -1,10 +1,10 @@
 function api(METHOD_NAME) {
   var path = 'https://api.telegram.org/bot' + getApiKey() + '/' + METHOD_NAME;
-  addLog('tgService api', path);
   return path;
 }
 
 function sendMessage(params) {
+  addLog(params.text);
   var uf = UrlFetchApp.fetch(api('sendMessage') + '?' + params.serialize(), {
     muteHttpExceptions: true
   });
