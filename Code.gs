@@ -23,6 +23,11 @@ function actionForMessage(msg) {
     for (var i = 0; i < msg.entities.length; i++) {
       actionForMessageWithEntity(msg, msg.entities[i].type);
     }
+  } else {
+    var params = {};
+    params.chat_id = msg.chat.id;
+    params.text = getOkMessage();
+    sendMessage(params);
   }
 }
 
@@ -47,13 +52,12 @@ function commandReaction(msg) {
       break;
     default:
       params.reply_to_message_id = msg.message_id;
-      text = getOkMessage();
+      if (cmd.charAt(0) === '/') text = 'Неизвестная команда ' + cmd;
   }
 
   if (text == '') return;
   params.text = text;
   sendMessage(params);
-  return params;
 }
 
 function getInstructions() {
