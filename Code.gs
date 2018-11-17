@@ -19,6 +19,7 @@ function actions(contents) {
 }
 
 function actionForMessage(msg) {
+  addLog(msg.text, msg.from);
   if (msg.hasOwnProperty('entities')) {
     for (var i = 0; i < msg.entities.length; i++) {
       actionForMessageWithEntity(msg, msg.entities[i].type);
@@ -38,7 +39,6 @@ function actionForMessageWithEntity(msg, entityType) {
 }
 
 function commandReaction(msg) {
-  addLog(msg.text, msg.from);
   var cmd = msg.text.split(' ')[0];
   var text = '';
   var params = {};
