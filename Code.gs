@@ -19,6 +19,9 @@ function actions(contents) {
 }
 
 function actionForMessage(msg) {
+  if (catchGuest(msg)) {
+    return;
+  }
   addLog(msg.text, msg.from);
   if (msg.hasOwnProperty('entities')) {
     for (var i = 0; i < msg.entities.length; i++) {
@@ -63,7 +66,9 @@ function commandReaction(msg) {
 function getInstructions() {
   var text = '';
   text += 'Этот бот-монстрик будет в течении дня насыщаться фразами, а утром скажет одну из понравившихся. =)' + '\n';
-  text += 'Пока что он может только записывать в свой лог сообщения и отвечает однообразно.';
+  text += 'Пока что он может только:';
+  text += '* записывать в свой лог сообщения и отвечает однообразно;';
+  text += '* различать своих и незнакомцев, отказываться от общения с незнакомцами.';
   return text;
 }
 
@@ -71,4 +76,25 @@ function getOkMessage() {
   var okMessages = ['угу', 'ням', 'спасибо', 'окей', 'записано', 'запомнил', 'отлично', 'ага', 'хорошо', 'ок'];
   var index = (Math.random() * 10) | 0;
   return okMessages[index];
+}
+
+function catchGuest(msg) {
+  var itIsGuest = false;
+  var userFrom = msg.from;
+  var userId = userFrom.id;
+  if (getUserIds().indexOf(userId) == -1) {
+    itIsGuest = true;
+    if (!findGuest(userId)) {
+      var params = {};
+      params.chat_id = msg.chat.id;
+      params.text = 'извините, я с незнакомцами не разговариваю';
+      sendMessage(params);
+      addGuest(userFrom);
+    }
+  }
+  return itIsGuest;
+}
+
+function catchGuestLog(msg) {
+  Logger.log(getUserIds().split(', '));
 }

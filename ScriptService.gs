@@ -17,3 +17,7 @@ function getApiKey(){
 function getUserId(){
   return PropertiesService.getScriptProperties().getProperty('userid');
 }
+
+function getUserIds(){
+  return PropertiesService.getScriptProperties().getProperty('userids');
+}
