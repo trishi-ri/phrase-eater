@@ -66,8 +66,8 @@ function commandReaction(msg) {
 function getInstructions() {
   var text = '';
   text += 'Этот бот-монстрик будет в течении дня насыщаться фразами, а утром скажет одну из понравившихся. =)' + '\n';
-  text += 'Пока что он может только:';
-  text += '* записывать в свой лог сообщения и отвечает однообразно;';
+  text += 'Пока что он может только:' + '\n';
+  text += '* записывать в свой лог сообщения и отвечает однообразно;' + '\n';
   text += '* различать своих и незнакомцев, отказываться от общения с незнакомцами.';
   return text;
 }
@@ -93,8 +93,4 @@ function catchGuest(msg) {
     }
   }
   return itIsGuest;
-}
-
-function catchGuestLog(msg) {
-  Logger.log(getUserIds().split(', '));
 }
