@@ -68,21 +68,16 @@ function getInstructions() {
   text += 'Этот бот-монстрик будет в течении дня насыщаться фразами, а утром скажет одну из понравившихся. =)' + '\n';
   text += 'Пока что он может только:' + '\n';
   text += '* записывать в свой лог сообщения и отвечает однообразно;' + '\n';
-  text += '* различать своих и незнакомцев, отказываться от общения с незнакомцами.';
+  text += '* различать своих и незнакомцев, отказываться от общения с незнакомцами;';
+  text += '* отправлять приветствие.';
   return text;
-}
-
-function getOkMessage() {
-  var okMessages = ['угу', 'ням', 'спасибо', 'окей', 'записано', 'запомнил', 'отлично', 'ага', 'хорошо', 'ок'];
-  var index = (Math.random() * 10) | 0;
-  return okMessages[index];
 }
 
 function catchGuest(msg) {
   var itIsGuest = false;
   var userFrom = msg.from;
   var userId = userFrom.id;
-  if (getUserIds().indexOf(userId) == -1) {
+  if (getUserIds().indexOf(''+userId) == -1) {
     itIsGuest = true;
     if (!findGuest(userId)) {
       var params = {};
@@ -93,4 +88,17 @@ function catchGuest(msg) {
     }
   }
   return itIsGuest;
+}
+
+function sendNotify(e) {
+  var chatList = getUserIds();
+  //  var text = '<b>' + getWelcomeMessage() + '</b>'
+  for (var i = 0; i < chatList.length; i++) {
+    var params = {
+      'chat_id': chatList[i],
+      'parse_mode': 'HTML',
+      'text': '<b>' + getWelcomeMessage() + '</b>'
+    };
+    sendMessage(params);
+  }
 }

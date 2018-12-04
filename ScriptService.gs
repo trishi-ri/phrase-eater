@@ -19,5 +19,5 @@ function getUserId(){
 }
 
 function getUserIds(){
-  return PropertiesService.getScriptProperties().getProperty('userids');
+  return PropertiesService.getScriptProperties().getProperty('userids').split(', ');
 }
