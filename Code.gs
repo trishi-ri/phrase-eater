@@ -73,7 +73,11 @@ function getHelpText() {
 }
 
 function getStatsText() {
-  return '<b>' + getWelcomeMessage() + '</b>' + '\n' + getStats();
+  return getStats();
+}
+
+function getNotifyText() {
+  return '<b>' + getWelcomeMessage() + '</b>' + '\n' + getStatsText();
 }
 
 function catchGuest(msg) {
@@ -93,6 +97,6 @@ function catchGuest(msg) {
 function sendNotify(e) {
   var chatList = getUserIds();
   for (var i = 0; i < chatList.length; i++) {
-    sendMessage(chatList[i], getStatsText());
+    sendMessage(chatList[i], getNotifyText());
   }
 }
