@@ -1,9 +1,18 @@
+function sendMessage(chatId, message) {
+  var params = {
+    'chat_id': chatId,
+    'parse_mode': 'HTML',
+    'text': message
+  };
+  sendMessageFromParams(params);
+}
+
 function api(METHOD_NAME) {
   var path = 'https://api.telegram.org/bot' + getApiKey() + '/' + METHOD_NAME;
   return path;
 }
 
-function sendMessage(params) {
+function sendMessageFromParams(params) {
   addLog(params.text);
   var uf = UrlFetchApp.fetch(api('sendMessage') + '?' + params.serialize(), {
     muteHttpExceptions: true

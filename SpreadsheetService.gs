@@ -8,6 +8,11 @@ function getSheetLog() {
   return ss.getSheets()[3];
 }
 
+function getSheetStats() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  return ss.getSheets()[0];
+}
+
 function addLog(text, userFrom) {
   var sheetLog = getSheetLog();
   var textValue = text ? text : 'нет текста';
@@ -15,7 +20,6 @@ function addLog(text, userFrom) {
   var fromValue = userFrom ? 'id: ' + userFrom.id + ', first_name: ' + userFrom.first_name + ', username: ' +  userFrom.username : 'нет данных пользователя';
   sheetLog.appendRow([dateValue, textValue, fromValue]);
   text = 'новая строка лога: ' + dateValue + ' | ' + textValue + '|' + fromValue;
-  Logger.log(text);
   return text;
 }
 
@@ -30,7 +34,6 @@ function findGuest(userId) {
       itIsGuest = true;
     }
   }
-  Logger.log(itIsGuest);
   return itIsGuest;
 }
 
@@ -43,6 +46,16 @@ function addGuest(userFrom) {
     var sheetGuests = getSheetGuest();
     sheetGuests.appendRow([userFrom.id, userFrom.first_name, userFrom.username]);
     text = 'новая строка гостя: ' + userFrom.id + ' | ' + userFrom.first_name + '|' + userFrom.username;
-    Logger.log(text);
   }
+}
+
+function getStats() {
+  var sheetStats = getSheetStats();
+  var data = sheetStats.getDataRange().getValues();
+  var text = '';
+  for (var i = 1; i < 4; i++) {
+    text += '\n' + data[i][0] + ': ' + data[i][1] + '/' + data[i][2];
+  }
+  text += '\n' + data[4][0] + ': ' + data[4][1];
+  return text;
 }

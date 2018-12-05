@@ -29,6 +29,22 @@ function getWelcomeMessagesArray() {
   ];
 }
 
+function getFaceEmojiArray() {
+  return [
+    '😀',
+    '😉',
+    '😊',
+    '😆',
+    '😐',
+    '🙄',
+    '😕',
+    '🙃',
+    '🤣',
+    '😅',
+    '😎'
+  ];
+}
+
 function getMessageFromArray(messagesArray) {
   var index = (Math.random() * 10) | 0;
   return messagesArray[index];
@@ -40,4 +56,8 @@ function getOkMessage() {
 
 function getWelcomeMessage() {
   return getMessageFromArray(getWelcomeMessagesArray());
+}
+
+function getFaceEmoji() {
+  return getMessageFromArray(getFaceEmojiArray());
 }

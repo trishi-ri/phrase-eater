@@ -3,11 +3,7 @@ function doPost(e) {
   try {
     actions(contents);
   } catch (err) {
-    var params = {
-      chat_id: contents.message.chat.id,
-      text: err.message
-    };
-    sendMessage(params);
+    sendMessage(contents.message.chat.id, err.message);
   }
   return HtmlService.createHtmlOutput();
 }
@@ -28,10 +24,7 @@ function actionForMessage(msg) {
       actionForMessageWithEntity(msg, msg.entities[i].type);
     }
   } else {
-    var params = {};
-    params.chat_id = msg.chat.id;
-    params.text = getOkMessage();
-    sendMessage(params);
+    sendMessage(msg.chat.id, getOkMessage());
   }
 }
 
@@ -44,33 +37,57 @@ function actionForMessageWithEntity(msg, entityType) {
 function commandReaction(msg) {
   var cmd = msg.text.split(' ')[0];
   var text = '';
-  var params = {};
-  params.chat_id = msg.chat.id;
   switch (cmd) {
     case '/start':
-      text = getInstructions();
+      text = getStartText();
       break;
     case '/help':
-      text = getInstructions();
+      text = getHelpText();
+      break;
+    case '/info':
+      text = getInfoText();
+      break;
+    case '/stats':
+      text = getStatsText();
       break;
     default:
-      params.reply_to_message_id = msg.message_id;
       if (cmd.charAt(0) === '/') text = 'Неизвестная команда ' + cmd;
   }
 
   if (text == '') return;
-  params.text = text;
-  sendMessage(params);
+  sendMessage(msg.chat.id, text);
 }
 
-function getInstructions() {
+function getStartText() {
+  var text = '';
+  text += getWelcomeMessage() + '\n';
+  text += 'эта команда пока ничего не делает ' + getFaceEmoji();
+  return text;
+}
+
+function getHelpText() {
+  var text = '';
+  text += 'Не знаешь что делать со мной? ' + getFaceEmoji() + '\n';
+  text += 'Вот несколько действий, которые могут дать какой-то результат сейчас:' + '\n';
+  text += '* напиши мне что угодно, и я отвечу случайной репликой из не очень большого количества вариантов;' + '\n';
+  text += '* дождись утра (где-то между восьми и девятью), и я пришлю тебе сообщение с приветствием и своим статусом;' + '\n';
+  text += '* можешь отправить мне одну из доступных команд.';
+  return text;
+}
+
+function getInfoText() {
   var text = '';
   text += 'Этот бот-монстрик будет в течении дня насыщаться фразами, а утром скажет одну из понравившихся. =)' + '\n';
   text += 'Пока что он может только:' + '\n';
   text += '* записывать в свой лог сообщения и отвечает однообразно;' + '\n';
   text += '* различать своих и незнакомцев, отказываться от общения с незнакомцами;' + '\n';
-  text += '* отправлять приветствие каждый день утром часов в восемь-девять.';
+  text += '* отвечать на следующие команды: start, help, info, stats;' + '\n';
+  text += '* отправлять приветствие и свой статус каждый день утром часов в восемь-девять.';
   return text;
+}
+
+function getStatsText() {
+  return '<b>' + getWelcomeMessage() + '</b>' + '\n' + getStats();
 }
 
 function catchGuest(msg) {
@@ -80,10 +97,7 @@ function catchGuest(msg) {
   if (getUserIds().indexOf(''+userId) == -1) {
     itIsGuest = true;
     if (!findGuest(userId)) {
-      var params = {};
-      params.chat_id = msg.chat.id;
-      params.text = 'извините, я с незнакомцами не разговариваю';
-      sendMessage(params);
+      sendMessage(msg.chat.id, 'извините, я с незнакомцами не разговариваю');
       addGuest(userFrom);
     }
   }
@@ -92,13 +106,7 @@ function catchGuest(msg) {
 
 function sendNotify(e) {
   var chatList = getUserIds();
-  //  var text = '<b>' + getWelcomeMessage() + '</b>'
   for (var i = 0; i < chatList.length; i++) {
-    var params = {
-      'chat_id': chatList[i],
-      'parse_mode': 'HTML',
-      'text': '<b>' + getWelcomeMessage() + '</b>'
-    };
-    sendMessage(params);
+    sendMessage(chatList[i], getStatsText());
   }
 }
