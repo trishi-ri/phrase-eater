@@ -23,8 +23,15 @@ function actionForMessage(msg) {
     for (var i = 0; i < msg.entities.length; i++) {
       actionForMessageWithEntity(msg, msg.entities[i].type);
     }
+  } else if (canAddPhrase()) {
+    addPhrase(msg.text, msg.from);
+    if (canAddPhrase()) {
+      sendMessage(msg.chat.id, getOkMessage());
+    } else {
+      sendMessage(msg.chat.id, getGoToSleepMessage());
+    }
   } else {
-    sendMessage(msg.chat.id, getOkMessage());
+    // nothing? or slepping sounds? ;)
   }
 }
 
