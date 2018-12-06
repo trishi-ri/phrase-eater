@@ -80,3 +80,12 @@ function addPhrase(text, userFrom) {
   text = 'новая строка в памяти: ' + dateValue + ' | ' + textValue + '|' + fromValue;
   return text;
 }
+
+function upStatSatiety() {
+  var sheetStats = getSheetStats();
+  var data = sheetStats.getDataRange().getValues();
+  if (data[2][1] < data[2][2]) {
+    var cell = sheetStats.getRange("B3");
+    cell.setValue(data[2][1] + 1);
+  }
+}

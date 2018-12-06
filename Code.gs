@@ -25,13 +25,12 @@ function actionForMessage(msg) {
     }
   } else if (canAddPhrase()) {
     addPhrase(msg.text, msg.from);
+    upStatSatiety();
     if (canAddPhrase()) {
       sendMessage(msg.chat.id, getOkMessage());
     } else {
       sendMessage(msg.chat.id, getGoToSleepMessage());
     }
-  } else {
-    // nothing? or slepping sounds? ;)
   }
 }
 
