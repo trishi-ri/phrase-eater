@@ -77,8 +77,6 @@ function addPhrase(text, userFrom) {
   var dateValue = new Date();
   var fromValue = userFrom ? 'id: ' + userFrom.id + ', first_name: ' + userFrom.first_name + ', username: ' +  userFrom.username : 'нет данных пользователя';
   sheetPhrases.appendRow([dateValue, textValue, fromValue]);
-  text = 'новая строка в памяти: ' + dateValue + ' | ' + textValue + '|' + fromValue;
-  return text;
 }
 
 function upStatSatiety() {
@@ -88,4 +86,12 @@ function upStatSatiety() {
     var cell = sheetStats.getRange("B3");
     cell.setValue(data[2][1] + 1);
   }
+}
+
+function getRandomTextFromMemory() {
+  var sheetPhrases = getSheetPhrases();
+  var data = sheetPhrases.getDataRange().getValues();
+  var index = getRandomIndex(data.length);
+  var text = data[index][1];
+  return text;
 }

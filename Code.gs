@@ -63,7 +63,7 @@ function commandReaction(msg) {
 
 function getStartText() {
   var text = '';
-  text += getWelcomeMessage() + '\n';
+  text += '<b>' + getWelcomeMessage() + '</b>' + '\n';
   text += 'эта команда пока ничего не делает ' + getFaceEmoji();
   return text;
 }
@@ -72,8 +72,8 @@ function getHelpText() {
   var text = '';
   text += 'Не знаешь что делать со мной? ' + getFaceEmoji() + '\n';
   text += 'Вот несколько действий, которые могут дать какой-то результат сейчас:' + '\n';
-  text += '* напиши мне что угодно, и я отвечу случайной репликой из не очень большого количества вариантов;' + '\n';
-  text += '* дождись утра (где-то между восьми и девятью), и я пришлю тебе сообщение с приветствием и своим статусом;' + '\n';
+  text += '* напиши мне что угодно, и я, возможно, запомню это;' + '\n';
+  text += '* дождись утра (где-то между восьми и девятью), и я пришлю тебе сообщение;' + '\n';
   text += '* можешь отправить мне одну из доступных команд.';
   return text;
 }
@@ -83,7 +83,10 @@ function getStatsText() {
 }
 
 function getNotifyText() {
-  return '<b>' + getWelcomeMessage() + '</b>' + '\n' + getStatsText();
+  var notifyText = '';
+  notifyText += getRandomTextFromMemory() + '\n';
+  notifyText += ' ~ <b>' + getExtraPhraseMessage() + '</b> ' + getFaceEmoji();
+  return notifyText;
 }
 
 function catchGuest(msg) {

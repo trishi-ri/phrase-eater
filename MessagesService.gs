@@ -61,8 +61,23 @@ function getGoToSleepMessageArray() {
   ];
 }
 
+function getExtraPhraseMessageArray() {
+  return [
+    'вот что я хочу тебе сказать',
+    'у меня есть много мыслей по поводу этого',
+    'фраза дня',
+    'мне был знак',
+    'мне нужно было тебе это сказать',
+    'надеюсь, тебе это понравится',
+    'эти слова я помню до сих пор',
+    'мне приснилось что-то странное',
+    'возможно, это окажется тебе полезным',
+    'одна из чудесных фраз, которые я помню, звучит так'
+  ];
+}
+
 function getMessageFromArray(messagesArray) {
-  var index = (Math.random() * 10) | 0;
+  var index = getRandomIndex(messagesArray.length);
   return messagesArray[index];
 }
 
@@ -80,4 +95,8 @@ function getFaceEmoji() {
 
 function getGoToSleepMessage() {
   return getMessageFromArray(getGoToSleepMessageArray());
+}
+
+function getExtraPhraseMessage() {
+  return getMessageFromArray(getExtraPhraseMessageArray());
 }
