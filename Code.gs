@@ -25,12 +25,14 @@ function actionForMessage(msg) {
     }
   } else if (canAddPhrase()) {
     addPhrase(msg.text, msg.from);
-    upStatSatiety();
+    var text = '';
     if (canAddPhrase()) {
-      sendMessage(msg.chat.id, getOkMessage());
+      text += getOkMessage();
     } else {
-      sendMessage(msg.chat.id, getGoToSleepMessage());
+      text += getGoToSleepMessage();
     }
+    text += '\n' + getStatSatietyText()
+    sendMessage(msg.chat.id, text);
   }
 }
 
@@ -78,10 +80,6 @@ function getHelpText() {
   return text;
 }
 
-function getStatsText() {
-  return getStats();
-}
-
 function getNotifyText() {
   var notifyText = '';
   notifyText += getRandomTextFromMemory() + '\n';
@@ -104,8 +102,13 @@ function catchGuest(msg) {
 }
 
 function sendNotify(e) {
+  var statUpdateText = statUpdate();
   var chatList = getUserIds();
   for (var i = 0; i < chatList.length; i++) {
-    sendMessage(chatList[i], getNotifyText());
+    if (phrasesExist()) {
+      sendMessage(chatList[i], getNotifyText());
+    }
+    if (statUpdateText == '') continue;
+    sendMessage(chatList[i], statUpdateText);
   }
 }
