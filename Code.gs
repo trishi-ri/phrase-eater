@@ -33,6 +33,8 @@ function actionForMessage(msg) {
     }
     text += '\n' + getStatSatietyText()
     sendMessage(msg.chat.id, text);
+  } else {
+    sendMessage(msg.chat.id, '💤');
   }
 }
 
