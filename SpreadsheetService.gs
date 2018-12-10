@@ -221,7 +221,7 @@ function statUpdate() {
   } else if (phrasesExist()) {
     lostMemory();
     text += 'одна из фраз была забыта' + '\n';
-    text += getStatLevelText();
+    text += getStatPhrasesInMemoryText();
   } else {
     if (resetStats()) {
       text += 'нечего забывать, поэтому все статы были сброшены' + '\n';

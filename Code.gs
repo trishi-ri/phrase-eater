@@ -24,6 +24,10 @@ function actionForMessage(msg) {
       actionForMessageWithEntity(msg, msg.entities[i].type);
     }
   } else if (canAddPhrase()) {
+    if (msg.text.length > 280) {
+      sendMessage(msg.chat.id, 'слишком длинная фраза, извини (' + msg.text.length + ' > 280)');
+      return;
+    }
     addPhrase(msg.text, msg.from);
     var text = '';
     if (canAddPhrase()) {
@@ -107,10 +111,11 @@ function sendNotify(e) {
   var statUpdateText = statUpdate();
   var chatList = getUserIds();
   for (var i = 0; i < chatList.length; i++) {
+    if (statUpdateText != '') {
+      sendMessage(chatList[i], statUpdateText);
+    }
     if (phrasesExist()) {
       sendMessage(chatList[i], getNotifyText());
     }
-    if (statUpdateText == '') continue;
-    sendMessage(chatList[i], statUpdateText);
   }
 }

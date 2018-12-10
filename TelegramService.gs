@@ -12,9 +12,18 @@ function api(METHOD_NAME) {
   return path;
 }
 
+function getUrlForWarningAboutLongMessage(params) {
+  params.text = 'это сообщение было слишком длинным (' + params.text.length + ')';
+  return api('sendMessage') + '?' + params.serialize();
+}
+
 function sendMessageFromParams(params) {
   addLog(params.text);
-  var uf = UrlFetchApp.fetch(api('sendMessage') + '?' + params.serialize(), {
+  var url = api('sendMessage') + '?' + params.serialize();
+  if (url.length >= 2048) {
+    url = getUrlForWarningAboutLongMessage(params);
+  }
+  var uf = UrlFetchApp.fetch(url, {
     muteHttpExceptions: true
   });
 }
