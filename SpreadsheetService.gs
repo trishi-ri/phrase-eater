@@ -18,6 +18,11 @@ function getSheetPhrases() {
   return ss.getSheets()[1];
 }
 
+function getSheetMessages() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  return ss.getSheets()[4];
+}
+
 function addLog(text, userFrom) {
   var sheetLog = getSheetLog();
   var textValue = text ? text : 'нет текста';
@@ -229,4 +234,12 @@ function statUpdate() {
     }
   }
   return text;
+}
+
+function getMessagesArrayFromSheet(column) {
+  var sheetMessages = getSheetMessages();
+  var numRows = sheetMessages.getMaxRows();
+  var values = sheetMessages.getSheetValues(2, column, numRows, column);
+  var messages = values.filter(firstValue).map(firstValue);
+  return messages;
 }
